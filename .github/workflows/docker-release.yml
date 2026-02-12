@@ -15,7 +15,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  # Ashvin Internal Engine
+  IMAGE_NAME: ashvinlabs/internal-engine
 
 jobs:
   # Build amd64 image
@@ -48,6 +49,8 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=long
             type=semver,pattern={{version}}
             type=semver,pattern={{version}},suffix=-amd64
             type=semver,pattern={{version}},suffix=-arm64
@@ -97,6 +100,8 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=long
             type=semver,pattern={{version}}
             type=semver,pattern={{version}},suffix=-amd64
             type=semver,pattern={{version}},suffix=-arm64
@@ -138,6 +143,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}}
 
       - name: Create and push manifest
